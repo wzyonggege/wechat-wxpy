@@ -25,4 +25,13 @@ def add_into_chatroom(msg):
         # 其他消息
         return u'收到：' + msg.text
 
+@base_bot.register(Group, TEXT)
+def auto_reply(msg):
+    # 如果是群聊，但没有被 @，则不回复
+    if isinstance(msg.chat, Group) and not msg.is_at:
+        return
+    else:
+        # 回复消息内容和类型
+        return '收到 @{} 的消息: {} '.format(msg.member.name, msg.text)
+
 base_bot.join()
